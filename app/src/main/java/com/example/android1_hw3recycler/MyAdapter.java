@@ -10,49 +10,43 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    String data1[], data2[];
-    int images[];
-    Context context;
+import java.util.ArrayList;
 
-    public MyAdapter(Context ct, String s1[], String s2[], int img[]) {
+public class MyAdapter extends RecyclerView.Adapter<MainViewHolder> {
+    ArrayList<ItemModel> data1 = new ArrayList<>();
 
-        context = ct;
-        data1 = s1;
-        data2 = s2;
-        images = img;
-    }
+    // public MyAdapter(Context ct, ArrayList<String> s1, ArrayList<String> s2, int img[]) {
+
+    // context = ct;
+    //data1 = s1;
+    //   data2 = s2;
+    //     images = img;
+    //  }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater=LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.my_row,parent,false);
-            return new MyViewHolder(view);
+    public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.my_row, parent, false);
+        return new MainViewHolder(view);
 
     }
 
+    public void addText(ArrayList<ItemModel> list) {
+        data1 = list;
+        notifyDataSetChanged();
+    }
+
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.myText1.setText(data1[position]);
-        holder.myText2.setText(data1[position]);
-        holder.myImage.setImageResource(images[position]);
+    public void onBindViewHolder(@NonNull MainViewHolder holder, int position) {
+        holder.onBind(data1.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return images.length;
+        return data1.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView myText1,myText2;
-        ImageView myImage;
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            myText1=itemView.findViewById(R.id.myText1);
-            myText2=itemView.findViewById(R.id.myText2);
-            myImage=itemView.findViewById(R.id.imageView);
-        }
-    }
+
 }
